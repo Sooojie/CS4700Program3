@@ -25,6 +25,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void Update()
     {
+        // Read keyboard input
         horizontalInput = 0f;
 
         if (Keyboard.current != null)
@@ -48,6 +49,7 @@ public class PlayerMovementScript : MonoBehaviour
             }
         }
 
+        // Check if player is touching the ground
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             groundCheckRadius,
@@ -75,7 +77,7 @@ public class PlayerMovementScript : MonoBehaviour
         jumpPressed = false;
     }
 
-    // Ground Check radius 
+    // Ground check radius 
     private void OnDrawGizmosSelected()
     {
         if (groundCheck != null)
