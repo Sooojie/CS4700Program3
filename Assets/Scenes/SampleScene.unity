@@ -549,8 +549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795d2097eb758a34bb87eb530fbdacc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementScript
-  moveSpeed: 6
-  jumpForce: 8
+  moveSpeed: 4
+  jumpForce: 5
+  airborne: 0
+  animator: {fileID: 0}
   groundCheck: {fileID: 694671709}
   groundCheckRadius: 0.2
   groundLayer:
@@ -709,8 +711,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
   bulletPrefab: {fileID: 6673989524549339896, guid: a99fffda961834145a5066a832b58119, type: 3}
-  fireOffsetX: 1
-  fireOffsetY: 0.2
+  fireOffsetX: 0.7
+  fireOffsetY: 0.25
 --- !u!95 &675517554
 Animator:
   serializedVersion: 7

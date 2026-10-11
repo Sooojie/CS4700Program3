@@ -13,9 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     public bool airborne;
     private bool jumpPressed;
-    private bool isShooting;
-    private double shootTimer = 0.0;
-    Animator animator;
+
+    public Animator animator;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -38,22 +37,6 @@ public class PlayerMovement : MonoBehaviour
         // Read keyboard input
         horizontalInput = 0f;
 
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-            {
-                isShooting = true;
-                shootTimer = 1.2;
-            }
-            else
-            {
-                if (shootTimer > 0)
-                {
-                    shootTimer = shootTimer - .01;
-                }
-                else
-                {
-                isShooting = false;
-                }
-            }
         if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed ||
@@ -66,9 +49,6 @@ public class PlayerMovement : MonoBehaviour
                 horizontalInput = -1f;
                 if (isGrounded)
                 {
-                    if (isShooting)
-                    animator.Play("Player_RunShoot");
-                    else
                     animator.Play("Player_Run");
                 }
             }
@@ -83,27 +63,18 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (isGrounded)
                 {
-                    if (isShooting)
-                    animator.Play("Player_RunShoot");
-                    else
                     animator.Play("Player_Run");
                 }
             }
 
             // Jump using Space.
-            else if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 jumpPressed = true;
-                if (isShooting)
-                animator.Play("Player_JumpShoot");
-                else
                 animator.Play("Player_Jump");
             }
             else if (isGrounded)
             {
-                if (isShooting)
-                animator.Play("Player_Shoot");
-                else
                 animator.Play("Player_Idle");
             }
         }

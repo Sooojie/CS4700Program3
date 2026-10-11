@@ -44,5 +44,7 @@ public class PlayerShooting : MonoBehaviour
         // Set bullet direction
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.SetDirection(direction);
+
+        playerMovement.animator.Play("Player_Shoot");
     }
 }
