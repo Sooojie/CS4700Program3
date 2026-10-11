@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovementScript : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 6f;
@@ -15,8 +15,11 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
-
+    
     private bool isGrounded;
+
+    [Header("Character Facing")]
+    public int FacingDirection { get; private set; } = 1;
 
     private void Awake()
     {
@@ -47,6 +50,12 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 jumpPressed = true;
             }
+        }
+
+        // If horizontalInput = -1f; FacingDirection = -1f, horizontalInput = 1f; FacingDirection = 1f
+        if (horizontalInput != 0)
+        {
+            FacingDirection = horizontalInput > 0 ? 1 : -1;
         }
 
         // Check if player is touching the ground
