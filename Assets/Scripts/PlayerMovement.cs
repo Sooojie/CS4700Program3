@@ -10,22 +10,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float jumpForce = 12f;
 
-    private Rigidbody2D rb;
-    private float horizontalInput;
-    private bool jumpPressed;
-    public string movementState;
-
-    public Animator animator;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
     
-    private bool isGrounded;
-
     [Header("Character Facing")]
     public int FacingDirection { get; private set; } = 1;
+    
+    private Rigidbody2D rb;
+    private float horizontalInput;
+    private bool jumpPressed;
+    private string movementState;
+    private Animator animator;
+    private bool isGrounded;
+
+    [Header("Shooting Settings")]
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float fireOffsetX = 0.7f;
+    [SerializeField] private float fireOffsetY = 0.1f;
+
 
     private void Awake()
     {
@@ -38,7 +43,58 @@ public class PlayerMovement : MonoBehaviour
         // Read keyboard input
         horizontalInput = 0f;
 
-        if (Keyboard.current != null)
+        Movement();
+
+        if (Keyboard.current.gKey.isPressed)
+        {
+            Shoot();
+        }
+
+
+        // Check if player is touching the ground
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer
+        );
+    }
+
+    private void FixedUpdate()
+    {
+        // Move left and right.
+        rb.linearVelocity = new Vector2(
+            horizontalInput * moveSpeed,
+            rb.linearVelocity.y
+        );
+
+        // Jump only when grounded.
+        if (jumpPressed && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(
+                rb.linearVelocity.x,
+                jumpForce
+            );
+        }
+
+        jumpPressed = false;
+    }
+
+    // Ground check radius 
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(
+                groundCheck.position,
+                groundCheckRadius
+            );
+        }
+    }
+
+    private void Movement()
+    {
+                if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed ||
                 Keyboard.current.leftArrowKey.isPressed)
@@ -89,45 +145,42 @@ public class PlayerMovement : MonoBehaviour
         {
             FacingDirection = horizontalInput > 0 ? 1 : -1;
         }
-
-        // Check if player is touching the ground
-        isGrounded = Physics2D.OverlapCircle(
-            groundCheck.position,
-            groundCheckRadius,
-            groundLayer
-        );
     }
 
-    private void FixedUpdate()
+    private void Shoot()
     {
-        // Move left and right.
-        rb.linearVelocity = new Vector2(
-            horizontalInput * moveSpeed,
-            rb.linearVelocity.y
+        if (bulletPrefab == null)
+        {
+            Debug.LogWarning("Bullet prefab is not assigned!");
+            return;
+        }
+
+        int direction = FacingDirection;
+        Vector3 spawnPosition = transform.position + new Vector3(fireOffsetX * direction, fireOffsetY, 0f);
+
+        GameObject bullet = Instantiate(
+            bulletPrefab,
+            spawnPosition,
+            Quaternion.identity
         );
 
-        // Jump only when grounded.
-        if (jumpPressed && isGrounded)
+        // Set bullet direction
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.SetDirection(direction);
+
+
+        if (movementState == "Jumping")
         {
-            rb.linearVelocity = new Vector2(
-                rb.linearVelocity.x,
-                jumpForce
-            );
+            animator.Play("Player_JumpShoot");
+        }
+        else if (movementState == "Running")
+        {
+            animator.Play("Player_RunShoot");
+        }
+        else
+        {
+            animator.Play("Player_Shoot");
         }
 
-        jumpPressed = false;
-    }
-
-    // Ground check radius 
-    private void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(
-                groundCheck.position,
-                groundCheckRadius
-            );
-        }
     }
 }
