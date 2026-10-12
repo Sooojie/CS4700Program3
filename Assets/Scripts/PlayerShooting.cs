@@ -45,6 +45,20 @@ public class PlayerShooting : MonoBehaviour
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.SetDirection(direction);
 
-        playerMovement.animator.Play("Player_Shoot");
+        string state = playerMovement.movementState;
+
+        if (state == "Jumping")
+        {
+            playerMovement.animator.Play("Player_JumpShoot");
+        }
+        else if (state == "Running")
+        {
+            playerMovement.animator.Play("Player_RunShoot");
+        }
+        else
+        {
+            playerMovement.animator.Play("Player_Shoot");
+        }
+
     }
 }

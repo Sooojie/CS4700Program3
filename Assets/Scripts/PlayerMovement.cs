@@ -1,5 +1,6 @@
 using System.Threading;
 using NUnit.Framework;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private float horizontalInput;
-    public bool airborne;
     private bool jumpPressed;
+    public string movementState;
 
     public Animator animator;
 
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isGrounded)
                 {
                     animator.Play("Player_Run");
+                    movementState = "Running";
                 }
             }
 
@@ -64,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isGrounded)
                 {
                     animator.Play("Player_Run");
+                    movementState = "Running";
                 }
             }
 
@@ -72,10 +75,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumpPressed = true;
                 animator.Play("Player_Jump");
+                movementState = "Jumping";
             }
             else if (isGrounded)
             {
                 animator.Play("Player_Idle");
+                movementState = "Idle";
             }
         }
 
