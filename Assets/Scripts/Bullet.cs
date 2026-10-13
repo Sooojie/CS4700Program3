@@ -1,3 +1,14 @@
+/***************************************************************
+*file: Bullet.cs
+*author: 
+*class: CS 4700 – Game Development
+*assignment: program 3
+*date last modified: 10/12/2026
+*
+*purpose: This program allows the Player to shoot when pressing the 'G' key
+*
+****************************************************************/
+
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
