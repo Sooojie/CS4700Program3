@@ -1,3 +1,14 @@
+/***************************************************************
+*file: CameraFollow.cs
+*author: 
+*class: CS 4700 – Game Development
+*assignment: program 3
+*date last modified: 10/12/26
+*
+*purpose: This program has the camera follow the Player as they move across the stage
+*
+****************************************************************/
+
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
