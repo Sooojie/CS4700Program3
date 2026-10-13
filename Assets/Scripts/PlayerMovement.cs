@@ -1,3 +1,15 @@
+/***************************************************************
+*file: PlayerMovement.cs
+*author:
+*class: CS 4700 – Game Development
+*assignment: program 3
+*date last modified: 10/12/2026
+*
+*purpose: This program lets the user control the movements of the
+*player sprite and adds speed and gravity to movement
+*
+****************************************************************/
+
 using System.Threading;
 using NUnit.Framework;
 using Unity.VisualScripting;
