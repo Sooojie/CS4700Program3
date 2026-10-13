@@ -1,3 +1,14 @@
+/***************************************************************
+*file: MovingPlatform.cs
+*author: M. Salcido
+*class: CS 4700 – Game Development
+*assignment: program 3
+*date last modified: 10/12/2026
+*
+*purpose: This program has a platform move back and forth 
+*that the player may land on
+*
+****************************************************************/
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
